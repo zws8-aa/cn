@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>综合业务展示 多服务类型 | 微信咨询</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background: #f0f4fa;
+    font-family: 'Segoe UI', '微软雅黑', system-ui, -apple-system, sans-serif;
+    padding: 24px 20px 40px 20px;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+
+  .service-card {
+    background: #ffffff;
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.12);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #eef2f8;
+  }
+
+  .service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 32px -16px rgba(0, 0, 0, 0.18);
+  }
+
+  .card-image {
+    width: 100%;
+    background: #fafcff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 28px 20px 20px 20px;
+    border-bottom: 1px solid #eff3f8;
+    min-height: 220px;
+  }
+
+  .card-image img {
+    max-width: 100%;
+    max-height: 210px;
+    width: auto;
+    height: auto;
+    border-radius: 24px;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+    object-fit: contain;
+    background: #fff;
+  }
+
+  .card-content {
+    padding: 20px 22px 26px 22px;
+    flex: 1;
+  }
+
+  .service-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #0a2540;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .service-desc {
+    font-size: 0.94rem;
+    line-height: 1.5;
+    color: #2c4c6e;
+  }
+
+  .image-strip {
+    margin-top: 20px;
+  }
+
+  .image-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .image-grid img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 24px;
+    background: #eef2f8;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s;
+    border: 1px solid #e2e8f0;
+  }
+
+  .image-grid img:hover {
+    transform: scale(1.01);
+  }
+
+  /* 玄狐微信悬浮（右下角固定） */
+  .xuanhu-float {
+    position: fixed;
+    right: 20px;
+    bottom: 30px;
+    z-index: 999;
+  }
+
+  .xuanhu-btn {
+    width: 60px;
+    height: 60px;
+    background: #07c160;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    transition: transform 0.2s;
+  }
+
+  .xuanhu-btn:hover {
+    transform: scale(1.05);
+  }
+
+  .xuanhu-qrcode {
+    display: none;
+    width: 120px;
+    height: 120px;
+    background: white;
+    padding: 8px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    margin-bottom: 10px;
+  }
+
+  .xuanhu-qrcode img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .website-link {
+    text-align: center;
+    margin: 40px 0 20px;
+  }
+  .btn-website {
+    display: inline-block;
+    background: linear-gradient(135deg, #1e2a3e 0%, #0f2b3d 100%);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 12px 32px;
+    border-radius: 60px;
+    text-decoration: none;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+    transition: 0.2s;
+    border: 1px solid rgba(255,255,255,0.2);
+    letter-spacing: 1px;
+  }
+  .btn-website:hover {
+    background: linear-gradient(135deg, #2c3e4e 0%, #1a3a4a 100%);
+    transform: scale(1.02);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  }
+
+  .footer-note {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 13px;
+    color: #7e95b0;
+  }
+
+  @media (max-width: 700px) {
+    body {
+      padding: 16px 12px 40px 12px;
+    }
+    .services-grid {
+      gap: 16px;
+    }
+    .card-image {
+      padding: 20px 12px 12px 12px;
+    }
+    .card-image img {
+      max-height: 150px;
+    }
+    .card-content {
+      padding: 14px 16px 18px;
+    }
+    .service-title {
+      font-size: 1.2rem;
+    }
+    .service-desc {
+      font-size: 0.85rem;
+    }
+    .image-grid {
+      gap: 12px;
+    }
+    .xuanhu-btn {
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
+    }
+    .xuanhu-qrcode {
+      width: 100px;
+      height: 100px;
+    }
+    .btn-website {
+      font-size: 1rem;
+      padding: 10px 24px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .services-grid {
+      gap: 12px;
+    }
+    .card-image img {
+      max-height: 130px;
+    }
+    .image-grid {
+      gap: 10px;
+    }
+  }
+</style>
+</head>
+<body>
+<!-- 玄狐微信悬浮（右下角） -->
+<div class="xuanhu-float">
+  <div class="xuanhu-qrcode" id="xuanhuQrcode">
+    <!-- 替换为玄狐微信二维码图片链接 -->
+    <img src="https://zws8-website-images.oss-cn-hongkong.aliyuncs.com/1.jpg" alt="玄狐微信">
+  </div>
+  <div class="xuanhu-btn" id="xuanhuBtn">💬</div>
+</div>
+
+<div class="container">
+<h1 style="text-align: center; margin-bottom: 30px; font-size: 2rem;">综合业务展示</h1>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="card-image">
+        <img src="https://zws8-website-images.oss-cn-hongkong.aliyuncs.com/8.jpg" alt="电子硬件维修" loading="lazy">
+      </div>
+      <div class="card-content">
+        <div class="service-title">🔧 电子硬件维修</div>
+        <div class="service-desc">小家电、电源板、电路板、开关电源故障检测维修，专业仪器快速定位。</div>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="card-image">
+        <img src="https://zws8-website-images.oss-cn-hongkong.aliyuncs.com/15.png" alt="智能设备安装调试" loading="lazy">
+      </div>
+      <div class="card-content">
+        <div class="service-title">📡 智能设备安装调试</div>
+        <div class="service-desc">监控摄像头、路由器、全屋WiFi无缝覆盖、智能家居安装配置调试。</div>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="card-image">
+        <img src="https://zws8-website-images.oss-cn-hongkong.aliyuncs.com/4.jpg" alt="网站搭建服务" loading="lazy">
+      </div>
+      <div class="card-content">
+        <div class="service-title">🌐 网站搭建服务</div>
+        <div class="service-desc">域名申请、网站搭建、GitHub建站部署、网页配置排版，从零上线。</div>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="card-image">
+        <img src="https://zws8-website-images.oss-cn-hongkong.aliyuncs.com/28.jpg" alt="分站业务展示" loading="lazy">
+      </div>
+      <div class="card-content">
+        <div class="service-title">🗂️ 分站业务展示网站</div>
+        <div class="service-desc">独立分站搭建、业务分类展示、图片素材托管、OSS图片接入配置。</div>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="card-image">
+        <img src="https://zws8-website-images.oss-cn-hongkong.aliyuncs.com/5.jpg" alt="工商知识产权" loading="lazy">
+      </div>
+      <div class="card-content">
+        <div class="service-title">⚖️ 工商知识产权服务</div>
+        <div class="service-desc">营业执照咨询代办、商标注册申请、个人发明专利注册代办。</div>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="card-image">
+        <img src="https://zws8-website-images.oss-cn-hongkong.aliyuncs.com/6.jpg" alt="办公文案服务" loading="lazy">
+      </div>
+      <div class="card-content">
+        <div class="service-title">📄 办公文案服务</div>
+        <div class="service-desc">PPT制作、排版美化、文案整理编辑，让汇报更专业出彩。</div>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="card-image">
+        <img src="https://zws8-website-images.oss-cn-hongkong.aliyuncs.com/7.jpg" alt="商品代购与外销" loading="lazy">
+      </div>
+      <div class="card-content">
+        <div class="service-title">📦 商品代购与外销服务</div>
+        <div class="service-desc">国内各地商品代购、采购代办；打包发货，对接销往海外一站式代办。</div>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="card-image">
+        <img src="https://zws8-website-images.oss-cn-hongkong.aliyuncs.com/1.jpg" alt="业务咨询微信" loading="lazy">
+      </div>
+      <div class="card-content">
+        <div class="service-title">💬 业务咨询 · 联系方式</div>
+        <div class="service-desc">微信扫码上方二维码或右下角微信，立即对接各类业务。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="image-strip">
+    <div class="image-grid">
+      <img src="https://zws8-website-images.oss-cn-hongkong.aliyuncs.com/13.jpg" alt="展示图" loading="lazy">
+      <img src="https://zws8-website-images.oss-cn-hongkong.aliyuncs.com/15.jpg" alt="展示图" loading="lazy">
+      <img src="https://zws8-website-images.oss-cn-hongkong.aliyuncs.com/16.jpg" alt="展示图" loading="lazy">
+      <img src="https://zws8-website-images.oss-cn-hongkong.aliyuncs.com/19.jpg" alt="展示图" loading="lazy">
+      <img src="https://zws8-website-images.oss-cn-hongkong.aliyuncs.com/10.jpg" alt="展示图" loading="lazy">
+      <img src="https://zws8-website-images.oss-cn-hongkong.aliyuncs.com/11.jpg" alt="展示图" loading="lazy">
+      <img src="https://zws8-website-images.oss-cn-hongkong.aliyuncs.com/20.jpg" alt="展示图" loading="lazy">
+      <img src="https://zws8-website-images.oss-cn-hongkong.aliyuncs.com/22.jpg" alt="展示图" loading="lazy">
+      <img src="https://zws8-website-images.oss-cn-hongkong.aliyuncs.com/12.jpg" alt="展示图" loading="lazy">
+      <img src="https://zws8-website-images.oss-cn-hongkong.aliyuncs.com/25.jpg" alt="展示图" loading="lazy">
+      <img src="https://zws8-website-images.oss-cn-hongkong.aliyuncs.com/26.jpg" alt="展示图" loading="lazy">
+      <img src="https://zws8-website-images.oss-cn-hongkong.aliyuncs.com/27.jpg" alt="展示图" loading="lazy">
+    </div>
+  </div>
+
+  <div class="footer-note">
+    ✨ 扫码右下角微信咨询所有业务
+  </div>
+</div>
+
+<script>
+// 微信悬浮展开/收起
+const btn = document.getElementById('xuanhuBtn');
+const qrcode = document.getElementById('xuanhuQrcode');
+btn.addEventListener('click', () => {
+  qrcode.style.display = qrcode.style.display === 'block' ? 'none' : 'block';
+});
+</script>
+</body>
+</html>
